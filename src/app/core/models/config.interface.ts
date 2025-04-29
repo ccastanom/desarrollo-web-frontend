@@ -1,5 +1,5 @@
 export interface InConfiguration {
-  layout: {
+  layout: {  
     rtl: boolean;
     variant: string;
     theme_color: string;
