@@ -4,7 +4,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { ProjectsDetailComponent } from './projects-detail/projects-detail.component';
 import { AdminGuard } from '@core/guard/admin.guard';
 
-export const routes: Route[] = [
+export const PAGES_ROUTE: Route[] = [
     {
         path:'users',
         component: UsersComponent,
