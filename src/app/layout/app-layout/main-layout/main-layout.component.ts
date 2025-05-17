@@ -8,6 +8,7 @@ import { SidebarComponent } from '../../sidebar/sidebar.component';
 import { HeaderComponent } from '../../header/header.component';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 
+// Componente principal que define la estructura de layout (encabezado + sidebar + contenido)
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.component.html',
@@ -23,6 +24,8 @@ import { UnsubscribeOnDestroyAdapter } from '@shared';
 export class MainLayoutComponent extends UnsubscribeOnDestroyAdapter implements AfterViewInit {
   direction!: Direction;
   public config!: InConfiguration;
+
+  // Constructor que obtiene configuraciones globales y referencias al DOM
   constructor(
     private configService: ConfigService,
     @Inject(DOCUMENT) private document: Document,
@@ -31,6 +34,8 @@ export class MainLayoutComponent extends UnsubscribeOnDestroyAdapter implements 
     super();
     this.config = this.configService.configData;
   }
+
+  // Método que se ejecuta cuando la vista del componente se ha cargado
   ngAfterViewInit(): void {
     //------------ set varient start----------------
     if (localStorage.getItem('theme')) {
@@ -164,7 +169,7 @@ export class MainLayoutComponent extends UnsubscribeOnDestroyAdapter implements 
 
     localStorage.setItem('isRtl', 'true');
   }
-  setLTRSettings() {
+  setLTRSettings() { // Revierte el modo RTL para usar el layout por defecto (izquierda a derecha)
     document.getElementsByTagName('html')[0].removeAttribute('dir');
     this.renderer.removeClass(this.document.body, 'rtl');
 

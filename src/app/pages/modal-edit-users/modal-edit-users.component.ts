@@ -39,26 +39,28 @@ import { UsersService } from 'app/services/users/users.service';
   styleUrls: ['./modal-edit-users.component.scss'],
 })
 export class ModalEditUsersComponent implements OnInit {
-  formUpdateUser!: FormGroup;
-  administratorsValues: any[] = [];
+  formUpdateUser!: FormGroup; // Formulario reactivo para actualizar usuario
+  administratorsValues: any[] = []; // Lista de administradores para selección
 
-  constructor(
+  constructor( // Se inyecta el usuario recibido desde el modal
     @Inject(MAT_DIALOG_DATA) public data: any,
     private readonly _formBuilder: FormBuilder,
     private readonly _usersService: UsersService,
     private readonly _snackBar: MatSnackBar,
     private readonly dialogRef: MatDialogRef<ModalEditUsersComponent>
   ) {
-    this.updateFormUser();
-    this.getAllAdministrator();
+    this.updateFormUser();   // Inicializa el formulario
+    this.getAllAdministrator();   // Carga la lista de administradores
   }
 
+  // Al iniciar el componente, se carga la información del usuario en el formulario
   ngOnInit() {
     if (this.data?.user) {
       this.loadUserData(this.data.user);
     }
   }
 
+  // Define los controles y validaciones del formulario de edición
   updateFormUser() {
     this.formUpdateUser = this._formBuilder.group({
       nombre: ['', Validators.required],
@@ -68,6 +70,7 @@ export class ModalEditUsersComponent implements OnInit {
     });
   }
 
+  // Llena el formulario con los datos del usuario recibido
   loadUserData(user: any) {
     this.formUpdateUser.patchValue({
       nombre: user.nombre,
@@ -77,6 +80,7 @@ export class ModalEditUsersComponent implements OnInit {
     });
   }
 
+  // Consulta a la base de datos los administradores para el select
   getAllAdministrator() {
     this._usersService.getAllAdministrator().subscribe({
       next: (res) => {
@@ -88,6 +92,7 @@ export class ModalEditUsersComponent implements OnInit {
     });
   }
 
+  // Envía los datos del formulario al backend para actualizar el usuario
   updateUser() {
     if (this.formUpdateUser.valid) {
       const userData = this.formUpdateUser.value;

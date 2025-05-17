@@ -41,6 +41,7 @@ export class SidebarComponent
   extends UnsubscribeOnDestroyAdapter
   implements OnInit, OnDestroy
 {
+  // Variables del sidebar y usuario
   public sidebarItems!: RouteInfo[];
   public innerHeight?: number;
   public bodyTag!: HTMLElement;
@@ -54,7 +55,7 @@ export class SidebarComponent
 
   userLogged: string | undefined = '';
   
-  constructor(
+  constructor(  //configura eventos de navegación y obtiene el rol del usuario autenticado
     @Inject(DOCUMENT) private readonly _document: Document,
     private readonly _renderer: Renderer2,
     public readonly _elementRef: ElementRef,
@@ -72,18 +73,20 @@ export class SidebarComponent
      const roleInfo = this._authService.getRoleInfoByToken();
      this.userLogged = roleInfo ? roleInfo.roleName : undefined;
   }
+  // Detecta resize de pantalla
   @HostListener('window:resize', ['$event'])
   windowResizecall() {
     this.setMenuHeight();
     this.checkStatuForResize(false);
   }
+  // Detecta clicks fuera del sidebar para cerrarlo en móviles
   @HostListener('document:mousedown', ['$event'])
   onGlobalClick(event: Event): void {
     if (!this._elementRef.nativeElement.contains(event.target)) {
       this._renderer.removeClass(this._document.body, 'overlay-open');
     }
   }
-
+  // Alterna apertura/cierre de submenús
   callToggleMenu(event: Event, length: number): void {
     if (!this.isValidLength(length) || !this.isValidEvent(event)) {
       return;
@@ -115,7 +118,7 @@ export class SidebarComponent
     return this._domSanitizer.bypassSecurityTrustHtml(html);
   }
 
-  ngOnInit() {
+  ngOnInit() { //inicializa elementos del sidebar
      const rolAuthority = this._authService.getAuthFromSessionStorage().rol_id;
      this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem?.rolAuthority.includes(rolAuthority));
      this.initLeftSidebar();
@@ -123,7 +126,7 @@ export class SidebarComponent
   }
 
 
-  initLeftSidebar() {
+  initLeftSidebar() {   // Configura altura del menú y estados responsive
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const _this = this;
     // Set menu height
@@ -147,7 +150,7 @@ export class SidebarComponent
       this._renderer.removeClass(this._document.body, 'ls-closed');
     }
   }
-  mouseHover() {
+  mouseHover() { // Controla comportamiento hover en sidebar colapsado
     const body = this._elementRef.nativeElement.closest('body');
     if (body.classList.contains('submenu-closed')) {
       this._renderer.addClass(this._document.body, 'side-closed-hover');

@@ -1,6 +1,6 @@
-import { ROLES } from '@shared/models/enums';
+import { ROLES } from '@shared/models/enums'; // Importación de los roles de usuario definidos como enumeración (ADMIN, USER)
 import { RouteInfo } from './sidebar.metadata';
-export const ROUTES: RouteInfo[] = [
+export const ROUTES: RouteInfo[] = [ // Lista de rutas visibles en la barra lateral (sidebar) dependiendo del rol del usuario
   {
     path: '/dashboard/main',
     title: 'Inicio',
@@ -11,7 +11,7 @@ export const ROUTES: RouteInfo[] = [
     badge: '',
     badgeClass: '',
     submenu: [],
-    rolAuthority: [ROLES.ADMIN, ROLES.USER]
+    rolAuthority: [ROLES.ADMIN, ROLES.USER] // Visible para ambos roles
   },
   {
     path: '/page/projects',
@@ -23,7 +23,7 @@ export const ROUTES: RouteInfo[] = [
     badge: '',
     badgeClass: '',
     submenu: [],
-    rolAuthority: [ROLES.ADMIN]
+    rolAuthority: [ROLES.ADMIN] // Solo visible para administradores
   },  
   {
     path: '/page/users',
@@ -35,7 +35,7 @@ export const ROUTES: RouteInfo[] = [
     badge: '',
     badgeClass: '',
     submenu: [],
-    rolAuthority: [ROLES.ADMIN]
+    rolAuthority: [ROLES.ADMIN] // Solo visible para administradores
   },
   {
     path: '/page/projects',
@@ -47,6 +47,6 @@ export const ROUTES: RouteInfo[] = [
     badge: '',
     badgeClass: '',
     submenu: [],
-    rolAuthority: [ROLES.USER]
+    rolAuthority: [ROLES.USER] // Solo visible para usuarios
   },  
 ];

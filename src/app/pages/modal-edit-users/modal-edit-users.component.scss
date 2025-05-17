@@ -1,10 +1,11 @@
-/* modal-edit-users.component.scss */
+/* modal-edit-users.component.scss
+Estilos personalizados para el modal de edición de usuarios */
 
-.custom-margin {
+.custom-margin { //Aplica un margen superior personalizado para separación visual
     margin-top: 1rem;
   }
   
-  mat-form-field {
+  mat-form-field { //Espaciado inferior para los campos de formulario (Material Form Fields)
     margin-bottom: 1rem;
   }
   

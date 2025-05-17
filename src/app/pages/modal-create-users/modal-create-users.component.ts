@@ -26,9 +26,9 @@ import Swal from 'sweetalert2';
 })
 export class ModalCreateUsersComponent implements OnInit {
 
-  formCreateUser!: FormGroup;
-  administratorsValues:any[] = [];
-  showFieldAdministrator: boolean = false;
+  formCreateUser!: FormGroup; // Formulario reactivo para la creación de usuario
+  administratorsValues:any[] = []; // Lista de administradores disponibles (para asignar a nuevos usuarios)
+  showFieldAdministrator: boolean = false; // Controla si se muestra o no el campo de administrador
 
 
   constructor(
@@ -40,6 +40,7 @@ export class ModalCreateUsersComponent implements OnInit {
   )
 
   {
+    // Inicializa el formulario y configura la validación de contraseña
     this.createFormUsers();
     this.formCreateUser.controls['confirmPassword'].valueChanges.pipe(
       debounceTime(1000),
@@ -49,10 +50,12 @@ export class ModalCreateUsersComponent implements OnInit {
     });
   }
 
+  // Se ejecuta al inicializar el componente, carga los administradores
 ngOnInit(): void {
   this.getAllAdministrator();
 }
 
+// Crea los campos del formulario con sus  validaciones
 createFormUsers() {
   this.formCreateUser = this._formBuilder.group({
     nombre: ['',Validators.required],
@@ -64,6 +67,7 @@ createFormUsers() {
   });
 }
 
+// Consulta los administradores desde el backend
 getAllAdministrator() {
   this._userService.getAllAdministrator().subscribe({
     next: (res) => {
@@ -76,6 +80,7 @@ getAllAdministrator() {
   });
 }
 
+// Controla el cambio de rol y la visibilidad del campo de administrador
 onChangeRole(event: any){
   if (event.value === '1') {
     this.hideAdministratorField();
@@ -84,6 +89,7 @@ onChangeRole(event: any){
   }
 }
 
+// Maneja el envío del formulario valida y envía los datos al backend
 onSubmit() {
   console.log('Formulario inválido:', this.formCreateUser.value); // revisa esto en consola
   console.log('Estado completo:', this.formCreateUser);
@@ -113,6 +119,7 @@ onSubmit() {
   });
 }
 
+// Valida que la confirmación de contraseña coincida
 private validatePassword(confirmPassword: string) {//contraseña de confirmacion coincide con la contraseña
   const password = this.formCreateUser.get('password')?.value;
   if (password !== confirmPassword) {
@@ -122,12 +129,14 @@ private validatePassword(confirmPassword: string) {//contraseña de confirmacion
   }
 }
 
+// Muestra el campo de administrador (cuando el rol es "Usuario")
 private showAdministratorField() { //Cuando el rol es diferente de 1, se muestra el campo de administrador
   this.showFieldAdministrator = true;
   this.formCreateUser.get('administrador_id')?.setValidators([Validators.required]);
   this.formCreateUser.get('administrador_id')?.updateValueAndValidity();
 }
 
+// Oculta el campo de administrador (cuando el rol es "Administrador")
 private hideAdministratorField(){ //Cuando el rol es 1, no se muestra el campo de administrador
   this.showFieldAdministrator = false;
   this.formCreateUser.get('administrador_id')?.clearValidators();

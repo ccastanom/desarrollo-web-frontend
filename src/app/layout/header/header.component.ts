@@ -1,3 +1,4 @@
+// Importaciones necesarias para el manejo del DOM, navegación y módulos visuales (Material, íconos, rutas)
 import { DOCUMENT, NgClass } from '@angular/common';
 import {
   Component,
@@ -12,6 +13,7 @@ import { FeatherIconsComponent } from '@shared/components/feather-icons/feather-
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 
+// Decorador que define el componente de encabezado principal (Header)
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -25,13 +27,13 @@ import { MatButtonModule } from '@angular/material/button';
     FeatherIconsComponent,
   ],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit { // Variables para configuración, estado de la barra, usuario actual...
   public config!: InConfiguration;
   isNavbarCollapsed = true;
   isOpenSidebar?: boolean;
   docElement?: HTMLElement;
   isFullScreen = false;
-  constructor(
+  constructor( // Constructor que inyecta servicios autenticación y configuración
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly renderer: Renderer2,
     public readonly elementRef: ElementRef,
@@ -39,17 +41,17 @@ export class HeaderComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly router: Router
   ) {
-     this.userLogged = this.authService.getAuthFromSessionStorage().nombre;
+     this.userLogged = this.authService.getAuthFromSessionStorage().nombre; // Se obtiene el nombre del usuario autenticado desde el almacenamiento de sesión
    }
 
    userLogged: string | undefined = '';
    
-  ngOnInit() {
+  ngOnInit() { // Carga inicial de configuración y referencia al documento HTML
     this.config = this.configService.configData;
     this.docElement = document.documentElement;
   }
 
-  callFullscreen() {
+  callFullscreen() { // Alterna el modo de pantalla completa
     if (!this.isFullScreen) {
       if (this.docElement?.requestFullscreen != null) {
         this.docElement?.requestFullscreen();
@@ -59,7 +61,7 @@ export class HeaderComponent implements OnInit {
     }
     this.isFullScreen = !this.isFullScreen;
   }
-  mobileMenuSidebarOpen(event: Event, className: string) {
+  mobileMenuSidebarOpen(event: Event, className: string) { // Abre o cierra el menú lateral en vista móvil
     const hasClass = (event.target as HTMLInputElement).classList.contains(
       className
     );
@@ -69,7 +71,7 @@ export class HeaderComponent implements OnInit {
       this.renderer.addClass(this.document.body, className);
     }
   }
-  callSidemenuCollapse() {
+  callSidemenuCollapse() { // Alterna el colapso del menú lateral izquierdo
     const hasClass = this.document.body.classList.contains('side-closed');
     if (hasClass) {
       this.renderer.removeClass(this.document.body, 'side-closed');
@@ -82,7 +84,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-   logout() {
+   logout() { // Ejecuta el cierre de sesión
     this.authService.logout();
    }
 }

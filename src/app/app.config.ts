@@ -16,13 +16,17 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { JwtInterceptor } from '@core/interceptor/jwt.interceptor';
 
+// Configuración principal de la aplicación
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(),
-    provideRouter(APP_ROUTE),
-    provideAnimations(),
+    provideHttpClient(), // Configura el cliente HTTP
+    provideRouter(APP_ROUTE), // Provee las rutas definidas
+    provideAnimations(),  // Habilita animaciones en toda la aplicación
+
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     { provide: DateAdapter, useClass: MomentDateAdapter },
+
+    // Define el formato de fechas que se usará en inputs de Angular Material
     {
       provide: MAT_DATE_FORMATS,
       useValue: {
@@ -37,6 +41,8 @@ export const appConfig: ApplicationConfig = {
         },
       },
     },
+
+    // Agrega el interceptor JWT para adjuntar el token de autenticación a las solicitudes HTTP
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     importProvidersFrom(FeatherModule.pick(allIcons)),
     provideCharts(withDefaultRegisterables()),
