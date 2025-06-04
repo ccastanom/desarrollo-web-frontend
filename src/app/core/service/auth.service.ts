@@ -44,38 +44,38 @@ export class AuthService {
   }
 
   setToken(token: string): void {
-    sessionStorage.setItem('token', token);
-  }
+  sessionStorage.setItem('accessToken', token); // ← el nombre correcto
+}
+
 
   logout() {
-    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('accessToken');
     this.router.navigate(['/authentication/signin'], {
       queryParams: {},
     });
   }
 
-  getRoleInfoByToken(): { roleId: number, roleName: string } | undefined { // Es el nombre del método. Su objetivo es devolver información del rol del usuario (ID y nombre) que ha sido autenticado.
-    // Indica que el método devolverá un objeto con dos propiedades (roleId y roleName) o undefined si ocurre algún problema (como error o rol no reconocido).
-        try {
-          const decodedToken: any = this.getAuthFromSessionStorage(); // Llama al método getAuthFromSessionStorage() que probablemente obtiene y decodifica el token de sesión del usuario (como un JWT o un objeto de datos).
-                      //El resultado se guarda en decodedToken.
-          const roleId = decodedToken.rol_id; // Extrae el rol_id desde el token decodificado y lo asigna a la variable roleId.
-          let roleName = '';  // Declara una variable para almacenar el nombre del rol que se asignará dependiendo del roleId.
-    
-          if (roleId === 1) {  // Evalúa el roleId: Si es 1, se considera Administrador. Si es 2, se considera Usuario. Si no es ninguno de esos dos, retorna undefined porque no reconoce el rol.
-            roleName = 'Administrador';
-          } else if (roleId === 2) {
-            roleName = 'Usuario';
-          } else {
-            return undefined;
-          }
-    
-          return { roleId, roleName }; //Si el roleId fue válido (1 o 2), devuelve un objeto con roleId y roleName.
-        } catch (error) { // Si algo sale mal (por ejemplo, el token no existe o no se puede decodificar), se captura el error. Se imprime el error en la consola y el método retorna undefined.
-          console.error(error);
-          return undefined;
-        }
-      }
+  getRoleInfoByToken(): { id: number, roleId: number, roleName: string } | undefined {
+  try {
+    const decodedToken: any = this.getAuthFromSessionStorage();
+    const id = decodedToken.id; // 👈 Extraemos el ID
+    const roleId = decodedToken.rol_id;
+    let roleName = '';
+
+    if (roleId === 1) {
+      roleName = 'Administrador';
+    } else if (roleId === 2) {
+      roleName = 'Usuario';
+    } else {
+      return undefined;
+    }
+
+    return { id, roleId, roleName }; // 👈 Incluimos el ID en la respuesta
+  } catch (error) {
+    console.error(error);
+    return undefined;
+  }
+}
 
 
 

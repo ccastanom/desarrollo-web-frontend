@@ -4,18 +4,18 @@
       <!-- Campo: Nombre del proyecto -->
       <mat-form-field appearance="outline" class="w-100 mb-3">
         <mat-label>Nombre del proyecto</mat-label>
-        <input matInput formControlName="nombre" placeholder="Ingresa el nombre" />
+        <input matInput formControlName="nombre" />
       </mat-form-field>
   
       <!-- Campo: Descripción -->
       <mat-form-field appearance="outline" class="w-100 mb-3">
         <mat-label>Descripción</mat-label>
-        <textarea matInput formControlName="descripcion" placeholder="Descripción del proyecto"></textarea>
+        <textarea matInput formControlName="descripcion"></textarea>
       </mat-form-field>
   
       <!-- Campo: Administrador -->
       <mat-form-field appearance="outline" class="w-100 mb-3">
-        <mat-label>Administrador a cargo</mat-label>
+        <mat-label>Administrador</mat-label>
         <mat-select formControlName="administrador_id">
           <mat-option *ngFor="let user of users" [value]="user.id">
             {{ user.nombre }}
@@ -26,12 +26,10 @@
     </form>
   </mat-dialog-content>
   
-  <!-- Botones de acción -->
   <mat-dialog-actions align="end">
     <button mat-button (click)="onCancel()">Cancelar</button>
     <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="formProject.invalid">
-      Crear
+      Guardar cambios
     </button>
   </mat-dialog-actions>
-  
   

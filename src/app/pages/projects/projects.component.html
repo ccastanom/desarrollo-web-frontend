@@ -1,1 +1,117 @@
-<p>projects works!</p>
+<section class="content">
+  <div class="content-block">
+    <div class="block-header" *ngFor="let breadscrum of breadscrums; trackBy: trackByFn">
+        <app-breadcrumb
+          [title]="breadscrum.title"
+          [items]="breadscrum.items"
+          [active_item]="breadscrum.active">
+        </app-breadcrumb>
+      </div>
+
+    <div class="row clearfix">
+      <div class="card col-md-12">
+        <div class="body">
+          <div class="row col-md-12 col-lg-12">
+            <div class="col-6">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Filtrar por nombre"
+                  [(ngModel)]="filterValues.nombre"
+                  (ngModelChange)="applyFilter()"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+    <div class="row my-3">
+      <div class="col-md-4">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Filtrar por nombre"
+          [(ngModel)]="filterValues.nombre"
+          (ngModelChange)="applyFilter()"
+        />
+      </div>
+      <div class="col-md-4">
+        <input
+          type="text"
+          placeholder="Filtrar por descripción"
+          [(ngModel)]="filterValues.descripcion"
+          (ngModelChange)="applyFilter()"
+        />
+      </div>
+      <div class="col-md-4 text-end">
+        <button mat-stroked-button color="primary" (click)="clearFilters()">Limpiar filtros</button>
+      </div>
+    </div>
+
+    <div class="my-3 text-end">
+      <button mat-flat-button class="bg-cyan" (click)="openCreateProjectModal()">
+        Crear nuevo proyecto
+      </button>
+    </div>
+
+    <div class="table-responsive">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Nombre</th>
+          <td mat-cell *matCellDef="let project">{{ project.nombre }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>Descripción</th>
+          <td mat-cell *matCellDef="let project">{{ project.descripcion }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Fecha</th>
+          <td mat-cell *matCellDef="let project">{{ project.fecha_creacion | date }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="administrator">
+          <th mat-header-cell *matHeaderCellDef>Administrador</th>
+          <td mat-cell *matCellDef="let project">
+            {{ project.administrador?.nombre || 'No asignado' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let project">
+            <button mat-icon-button matTooltip="Ver detalle" (click)="goToDetail(project.id)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Editar" (click)="openEditProjectModal(project)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Eliminar" (click)="deleteProject(project.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-paginator
+        [pageSize]="5"
+        [pageSizeOptions]="[5, 10, 15]"
+        showFirstLastButtons
+      ></mat-paginator>
+
+      <div *ngIf="dataSource.data.length === 0" class="text-center mt-3">
+        <p>No hay proyectos disponibles.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
