@@ -12,7 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectsService } from 'app/services/projects/projects.service';
 import { UsersService } from 'app/services/users/users.service';
-import { AuthService } from '@core/service/auth.service'; // ✅ Importa el servicio de autenticación
+import { AuthService } from '@core/service/auth.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -39,16 +39,15 @@ export class ProjectsDetailComponent implements OnInit {
   allUsers: any[] = [];
   selectedUserId!: number;
   isLoading = false;
-  isAdmin: boolean = false; // ✅ Bandera para saber si es admin
-
-  displayedColumns: string[] = ['id', 'nombre', 'acciones'];
+  isAdmin: boolean = false;
+  displayedColumns: string[] = [];
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly projectService: ProjectsService,
     private readonly userService: UsersService,
-    private readonly authService: AuthService // ✅ Inyectamos AuthService
+    private readonly authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -57,10 +56,19 @@ export class ProjectsDetailComponent implements OnInit {
     const roleInfo = this.authService.getRoleInfoByToken();
     this.isAdmin = roleInfo?.roleId === 1;
 
+    this.setDisplayedColumns(); // ✅ ahora sí existe
+
     if (projectId) {
       this.loadProject(projectId);
       this.loadAssignedUsers(projectId);
-      if (this.isAdmin) this.loadAllUsers(); // ✅ Solo si es admin
+      if (this.isAdmin) this.loadAllUsers();
+    }
+  }
+
+  setDisplayedColumns(): void {
+    this.displayedColumns = ['id', 'nombre'];
+    if (this.isAdmin) {
+      this.displayedColumns.push('acciones');
     }
   }
 
@@ -152,3 +160,4 @@ export class ProjectsDetailComponent implements OnInit {
     this.router.navigate(['/page/projects']);
   }
 }
+

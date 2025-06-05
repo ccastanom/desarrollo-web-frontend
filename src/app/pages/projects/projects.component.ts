@@ -35,7 +35,7 @@ import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.co
 })
 export class ProjectsComponent {
   dataSource = new MatTableDataSource<any>();
-  displayedColumns: string[] = ['name', 'description', 'date', 'administrator', 'actions'];
+  displayedColumns: string[] = ['name', 'description', 'date', 'usuariosAsignados', 'actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   filterValues = {
@@ -64,6 +64,7 @@ export class ProjectsComponent {
   loadProjects(): void {
     this.projectsService.getProjects(this.filterValues).subscribe({
       next: (res: any) => {
+        console.log('📦 Proyectos recibidos:', res.projects);
         this.dataSource = new MatTableDataSource(res.projects);
         this.dataSource.paginator = this.paginator;
       },
