@@ -34,13 +34,13 @@ import Swal from 'sweetalert2';
   styleUrls: ['./projects-detail.component.scss']
 })
 export class ProjectsDetailComponent implements OnInit {
-  project: any = null;
-  assignedUsers: any[] = [];
-  allUsers: any[] = [];
-  selectedUserId!: number;
-  isLoading = false;
-  isAdmin: boolean = false;
-  displayedColumns: string[] = [];
+  project: any = null; // Proyecto actual
+  assignedUsers: any[] = []; // Lista de usuarios asignados al proyecto
+  allUsers: any[] = []; // Todos los usuarios (solo visible para admin)
+  selectedUserId!: number; // ID del usuario que se va a asignar
+  isLoading = false; // Indicador de carga para la lista de usuarios
+  isAdmin: boolean = false; // Si el usuario actual es admin
+  displayedColumns: string[] = []; // Columnas visibles en la tabla
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -51,27 +51,29 @@ export class ProjectsDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const projectId = Number(this.route.snapshot.paramMap.get('id'));
+    const projectId = Number(this.route.snapshot.paramMap.get('id')); // ID del proyecto por URL
     
-    const roleInfo = this.authService.getRoleInfoByToken();
+    const roleInfo = this.authService.getRoleInfoByToken();  // Rol del usuario actual
     this.isAdmin = roleInfo?.roleId === 1;
 
-    this.setDisplayedColumns(); // ✅ ahora sí existe
+    this.setDisplayedColumns(); // ✅ Determina qué columnas se muestran en la tabla
 
     if (projectId) {
-      this.loadProject(projectId);
-      this.loadAssignedUsers(projectId);
-      if (this.isAdmin) this.loadAllUsers();
+      this.loadProject(projectId); // Carga la información del proyecto
+      this.loadAssignedUsers(projectId); // Carga los usuarios asignados
+      if (this.isAdmin) this.loadAllUsers(); // Si es admin, carga todos los usuarios disponibles
     }
   }
 
+  //Definir columnas según el rol
   setDisplayedColumns(): void {
     this.displayedColumns = ['id', 'nombre'];
     if (this.isAdmin) {
-      this.displayedColumns.push('acciones');
+      this.displayedColumns.push('acciones'); // Solo admins ven el botón de desasignar
     }
   }
 
+  //Carga de datos del proyecto
   loadProject(id: number): void {
     this.projectService.getProjectById(id).subscribe({
       next: (res) => {
@@ -83,6 +85,7 @@ export class ProjectsDetailComponent implements OnInit {
     });
   }
 
+  //Carga usuarios asignados al proyecto
   loadAssignedUsers(projectId: number): void {
     this.isLoading = true;
     this.projectService.getProjectById(projectId).subscribe({
@@ -96,6 +99,7 @@ export class ProjectsDetailComponent implements OnInit {
     });
   }
 
+  //Carga todos los usuarios (solo para admin)
   loadAllUsers(): void {
     this.userService.getAllUsers().subscribe({
       next: (res) => {
@@ -107,6 +111,7 @@ export class ProjectsDetailComponent implements OnInit {
     });
   }
 
+  // Asignar usuario al proyecto
   assignUser(): void {
     if (!this.selectedUserId || !this.project?.id) return;
 
@@ -127,6 +132,7 @@ export class ProjectsDetailComponent implements OnInit {
     });
   }
 
+  //Desasignar usuario
   unassignUser(userId: number): void {
     if (!this.project?.id || !userId) return;
 
@@ -156,6 +162,7 @@ export class ProjectsDetailComponent implements OnInit {
     });
   }
 
+  //Volver al listado de proyectos
   goBack(): void {
     this.router.navigate(['/page/projects']);
   }

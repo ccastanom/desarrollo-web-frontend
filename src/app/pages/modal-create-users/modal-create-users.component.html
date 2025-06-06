@@ -1,16 +1,23 @@
+<!-- Contenedor principal del formulario en el modal -->
 <div class="col-lg-12 col-md-12 col-sm-12">
+    <!-- Título del modal -->  
     <h2 mat-dialog-title>Creación de usuarios</h2>
+    <!-- Contenido del modal -->
     <div mat-dialog-content>
       <form [formGroup]="formCreateUser">
+        <!-- Contenedor de campos del formulario -->
         <div class="col-lg-12 col-md-12 col-sm-12 custom-margin mt-4">
+          <!-- Fila para nombre y correo -->
           <div class="row">
+            <!-- Campo: Nombre -->
             <div class="col-lg-6 col-md-6 col-sm-6">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Nombre</mat-label>
                 <input matInput formControlName="nombre" />
               </mat-form-field>
             </div>
-  
+
+            <!-- Campo: Correo electrónico -->
             <div class="col-lg-6 col-md-6 col-sm-6">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Correo electrónico</mat-label>
@@ -21,6 +28,7 @@
   
           <!-- Campo de ROL -->
           <div class="row">
+            <!-- Campo: Rol del usuario -->
             <div class="col-lg-6 col-md-6 col-sm-6">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Rol</mat-label>
@@ -33,8 +41,9 @@
             </div>
           </div>
   
-          <!-- Campo Administrador (solo si el rol es Usuario) -->
+          <!-- Fila para seleccionar el administrador si el rol es Usuario -->
           <div class="row" *ngIf="showFieldAdministrator">
+            <!-- Campo: Administrador asignado (solo visible si rol_id = 2) -->
             <div class="col-lg-6 col-md-6 col-sm-6">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Administrador asignado</mat-label>
@@ -46,19 +55,22 @@
               </mat-form-field>
             </div>
           </div>
-  
+
+          <!-- Fila para contraseñas -->
           <div class="row">
+            <!-- Campo: Contraseña -->
             <div class="col-lg-6 col-md-6 col-sm-6">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Contraseña</mat-label>
                 <input matInput formControlName="password" type="password" />
               </mat-form-field>
             </div>
-  
+            <!-- Campo: Confirmar contraseña -->
             <div class="col-lg-6 col-md-6 col-sm-6">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Confirmar contraseña</mat-label>
                 <input matInput formControlName="confirmPassword" type="password" />
+                <!-- Validación: Si las contraseñas no coinciden -->
                 <mat-error *ngIf="formCreateUser.get('confirmPassword')?.hasError('invalid')">
                   Las contraseñas no coinciden.
                 </mat-error>
@@ -68,9 +80,12 @@
         </div>
       </form>
     </div>
-  
+    
+    <!-- Botones al final del modal -->
     <div mat-dialog-actions align="end">
+      <!-- Botón para cerrar sin guardar -->
       <button mat-button mat-dialog-close>Cancelar</button>
+      <!-- Botón para enviar el formulario y crear el usuario -->
       <button mat-flat-button color="primary" (click)="onSubmit()">Crear usuario</button>
     </div>
   </div>

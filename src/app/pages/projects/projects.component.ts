@@ -17,7 +17,7 @@ import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.co
 
 @Component({
   selector: 'app-projects',
-  standalone: true,
+  standalone: true, // Componente standalone (independiente de módulos)
   imports: [
     BreadcrumbComponent,
     CommonModule,
@@ -30,23 +30,23 @@ import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.co
     MatTooltipModule,
     MatDialogModule,
   ],
-  templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.scss'],
+  templateUrl: './projects.component.html',  // Archivo HTML asociado
+  styleUrls: ['./projects.component.scss'],  // Estilos SCSS asociados
 })
 export class ProjectsComponent {
-  dataSource = new MatTableDataSource<any>();
-  displayedColumns: string[] = ['name', 'description', 'date', 'usuariosAsignados', 'actions'];
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  dataSource = new MatTableDataSource<any>();    // Fuente de datos para la tabla
+  displayedColumns: string[] = ['name', 'description', 'date', 'usuariosAsignados', 'actions']; // Columnas visibles en la tabla
+  @ViewChild(MatPaginator) paginator!: MatPaginator; // Referencia al paginador
 
   filterValues = {
-    nombre: '',
-    descripcion: '',
+    nombre: '', // Filtro por nombre
+    descripcion: '',  // Filtro por descripción
   };
 
   constructor(
-    private projectsService: ProjectsService,
-    private router: Router,
-    private dialog: MatDialog
+    private projectsService: ProjectsService,  // Servicio para proyectos
+    private router: Router,   // Para redireccionar entre rutas
+    private dialog: MatDialog  // Servicio para abrir diálogos (modales)
   ) {}
 
   breadscrums = [
@@ -61,6 +61,7 @@ export class ProjectsComponent {
     this.loadProjects();
   }
 
+  // Carga los proyectos desde el backend y asigna el paginador
   loadProjects(): void {
     this.projectsService.getProjects(this.filterValues).subscribe({
       next: (res: any) => {
@@ -74,19 +75,23 @@ export class ProjectsComponent {
     });
   }
 
+  // Aplica los filtros al hacer cambios en los inputs
   applyFilter(): void {
     this.loadProjects();
   }
 
+  // Limpia los filtros y recarga todos los proyectos
   clearFilters(): void {
     this.filterValues = { nombre: '', descripcion: '' };
     this.loadProjects();
   }
 
+  // Redirige al detalle del proyecto
   goToDetail(projectId: number): void {
     this.router.navigate(['/page/project', projectId]);
   }
 
+  // Elimina un proyecto tras confirmación del usuario
   deleteProject(id: number): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -110,11 +115,13 @@ export class ProjectsComponent {
     });
   }
 
+  // Abre el modal para crear un nuevo proyecto
   openCreateProjectModal(): void {
     const dialogRef = this.dialog.open(ModalCreateProjectComponent, {
       width: '600px',
     });
 
+    // Si se creó un proyecto, recarga la lista
     dialogRef.afterClosed().subscribe((wasCreated: boolean) => {
       if (wasCreated) {
         this.clearFilters();
@@ -122,12 +129,14 @@ export class ProjectsComponent {
     });
   }
 
+  // Abre el modal para editar un proyecto existente
   openEditProjectModal(project: any): void {
     const dialogRef = this.dialog.open(ModalEditProjectComponent, {
       width: '600px',
-      data: project,
+      data: project, // Pasa el proyecto a editar como datos al modal
     });
 
+    // Si se actualizó un proyecto, recarga la lista
     dialogRef.afterClosed().subscribe((wasUpdated: boolean) => {
       if (wasUpdated) {
         this.loadProjects();
@@ -135,6 +144,7 @@ export class ProjectsComponent {
     });
   }
 
+  // TrackBy para optimizar el renderizado del *ngFor
   trackByFn(index: number, item: any): number {
     return index;
   }

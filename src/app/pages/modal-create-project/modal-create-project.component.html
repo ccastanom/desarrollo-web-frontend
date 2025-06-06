@@ -1,22 +1,27 @@
+<!-- Contenido principal del modal -->
 <mat-dialog-content class="form-container">
     <form [formGroup]="formProject" class="form-group">
   
       <!-- Campo: Nombre del proyecto -->
       <mat-form-field appearance="outline" class="w-100 mb-3">
         <mat-label>Nombre del proyecto</mat-label>
+        <!-- Input conectado al control 'nombre' del formulario -->
         <input matInput formControlName="nombre" placeholder="Ingresa el nombre" />
       </mat-form-field>
   
       <!-- Campo: Descripción -->
       <mat-form-field appearance="outline" class="w-100 mb-3">
         <mat-label>Descripción</mat-label>
+        <!-- Textarea conectado al control 'descripcion' -->
         <textarea matInput formControlName="descripcion" placeholder="Descripción del proyecto"></textarea>
       </mat-form-field>
   
       <!-- Campo: Administrador -->
       <mat-form-field appearance="outline" class="w-100 mb-3">
         <mat-label>Administrador a cargo</mat-label>
+        <!-- Select para elegir el administrador, enlazado al control 'administrador_id' -->
         <mat-select formControlName="administrador_id">
+          <!-- Lista de opciones generadas a partir del array 'users' -->
           <mat-option *ngFor="let user of users" [value]="user.id">
             {{ user.nombre }}
           </mat-option>
@@ -28,7 +33,9 @@
   
   <!-- Botones de acción -->
   <mat-dialog-actions align="end">
+    <!-- Botón para cerrar el modal sin guardar -->
     <button mat-button (click)="onCancel()">Cancelar</button>
+    <!-- Botón para enviar el formulario, deshabilitado si el formulario es inválido -->
     <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="formProject.invalid">
       Crear
     </button>

@@ -1,6 +1,6 @@
 <section class="content">
   <div class="content-block">
-    <!-- Migas de pan -->
+    <!-- Navegción -->
     <div class="block-header" *ngFor="let breadscrum of breadscrums; trackBy: trackByFn">
       <app-breadcrumb
         [title]="breadscrum.title"
@@ -9,10 +9,11 @@
       </app-breadcrumb>
     </div>
 
-    <!-- Filtros -->
+    <!-- Filtros de búsqueda por nombre y descripción -->
     <div class="row clearfix">
       <div class="card col-md-12">
         <div class="body">
+          <!-- Filtros con ngModel para nombre y descripción -->
           <div class="row col-md-12 col-lg-12">
             <div class="col-6">
               <mat-form-field class="w-100" appearance="outline">
@@ -49,7 +50,7 @@
               </ul>
             </div>
 
-            <!-- Botones a la derecha -->
+            <!-- Botones de limpiar filtros y crear nuevo proyecto -->
             <div class="right d-flex align-items-center gap-2">
               <button mat-stroked-button color="primary" (click)="clearFilters()">
                 Limpiar filtros
@@ -60,25 +61,27 @@
             </div>
           </div>
 
-          <!-- Tabla de proyectos -->
+          <!-- Tabla que lista proyectos -->
           <div class="table-responsive">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
-
+              <!-- Columna: Nombre del proyecto -->
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>Nombre</th>
                 <td mat-cell *matCellDef="let project">{{ project.nombre }}</td>
               </ng-container>
 
+              <!-- Columna: Descripción del proyecto -->
               <ng-container matColumnDef="description">
                 <th mat-header-cell *matHeaderCellDef>Descripción</th>
                 <td mat-cell *matCellDef="let project">{{ project.descripcion }}</td>
               </ng-container>
-
+              <!-- Columna: Fecha de creación -->
               <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef>Fecha</th>
                 <td mat-cell *matCellDef="let project">{{ project.fecha_creacion | date }}</td>
               </ng-container>
-              
+
+              <!-- Columna: Usuarios asignados -->
               <ng-container matColumnDef="usuariosAsignados">
                 <th mat-header-cell *matHeaderCellDef>Usuarios asignados</th>
                 <td mat-cell *matCellDef="let project">
@@ -89,6 +92,7 @@
                       </li>
                     </ul>
                   </ng-container>
+                  <!-- Texto por defecto si no hay usuarios asignados -->
                   <ng-template #noUsers>
                     <span>No asignados</span>
                   </ng-template>
@@ -97,7 +101,7 @@
 
 
 
-
+              <!-- Columna: Botones de acción -->
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef>Acciones</th>
                 <td mat-cell *matCellDef="let project">
@@ -113,16 +117,18 @@
                 </td>
               </ng-container>
 
+              <!-- Estructura de filas y encabezados -->
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>
-
+            <!-- Paginación de la tabla -->
             <mat-paginator
               [pageSize]="5"
               [pageSizeOptions]="[5, 10, 15]"
               showFirstLastButtons>
             </mat-paginator>
 
+            <!-- Mensaje si no hay proyectos para mostrar -->
             <div *ngIf="dataSource.data.length === 0" class="text-center mt-3">
               <p>No hay proyectos disponibles.</p>
             </div>

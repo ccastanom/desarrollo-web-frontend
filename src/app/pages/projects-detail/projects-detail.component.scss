@@ -1,10 +1,11 @@
+// Contenedor principal con padding, fondo blanco y bordes redondeados
 .container {
     padding: 2rem;
     background-color: #fff;
     border-radius: 0.5rem;
   }
   
-  
+  // Título de sección con tamaño de fuente, margen y negrita
   .section-title {
     font-size: 1.3rem;
     margin-top: 2rem;
@@ -12,31 +13,35 @@
     font-weight: 600;
   }
   
+  // Estilo general para todos los campos de formulario Material
   .mat-form-field {
     width: 100%;
     margin-bottom: 1rem;
   }
   
+  // Contenedor para botones de acción con espaciado entre ellos
   .action-buttons {
     display: flex;
     gap: 0.5rem;
   
     button {
       color: #555;
-  
+      // Al pasar el mouse, se oscurece el texto
       &:hover {
         color: #000;
       }
     }
   }
-  
+  // Separación debajo de la barra de progreso (si se usa)
   mat-progress-bar {
     margin-bottom: 1rem;
   }
   
+  // Lista de usuarios con márgenes y tabla estilizada
   .user-list {
     margin-top: 1rem;
   
+    // Estilo para la tabla interna
     table {
       width: 100%;
       border-radius: 4px;
@@ -44,9 +49,11 @@
     }
   }
   
+  // Contenedor del botón para regresar
   .back-button {
     margin-top: 2rem;
-  
+    
+    // Estilo para el botón de regreso
     button {
       display: flex;
       align-items: center;
@@ -54,16 +61,19 @@
     }
   }
   
+  // Estilo para el formulario de asignar usuarios
   .assign-user-form {
     display: flex;
     align-items: flex-end;
     gap: 1rem;
     flex-wrap: wrap;
   
+    // Cada campo del formulario ocupa mínimo 300px
     mat-form-field {
       flex: 1 1 300px;
     }
   
+    // Separación del botón con respecto al campo
     button {
       margin-top: 8px;
     }
@@ -74,6 +84,7 @@
     .assign-user-form {
       flex-direction: column;
   
+      // Campos y botones ocupan todo el ancho
       mat-form-field,
       button {
         width: 100%;

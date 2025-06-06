@@ -1,24 +1,29 @@
+<!-- Contenido del modal (área central del diálogo) -->
 <mat-dialog-content class="form-container">
     <form [formGroup]="formProject" class="form-group">
   
       <!-- Campo: Nombre del proyecto -->
       <mat-form-field appearance="outline" class="w-100 mb-3">
         <mat-label>Nombre del proyecto</mat-label>
+        <!-- Input de tipo texto vinculado al formControl 'nombre' -->
         <input matInput formControlName="nombre" />
       </mat-form-field>
   
       <!-- Campo: Descripción -->
       <mat-form-field appearance="outline" class="w-100 mb-3">
         <mat-label>Descripción</mat-label>
+        <!-- Área de texto (textarea) vinculada al formControl 'descripcion' -->
         <textarea matInput formControlName="descripcion"></textarea>
       </mat-form-field>
   
       <!-- Campo: Administrador -->
       <mat-form-field appearance="outline" class="w-100 mb-3">
         <mat-label>Administrador</mat-label>
+        <!-- Lista desplegable (select) vinculada al formControl 'administrador_id' -->
         <mat-select formControlName="administrador_id">
+          <!-- Recorre el arreglo 'users' para mostrar las opciones disponibles -->
           <mat-option *ngFor="let user of users" [value]="user.id">
-            {{ user.nombre }}
+            {{ user.nombre }} <!-- Muestra el nombre del usuario como texto de la opción -->
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -26,8 +31,11 @@
     </form>
   </mat-dialog-content>
   
+  <!-- Sección inferior del modal con botones de acción -->
   <mat-dialog-actions align="end">
+    <!-- Botón para cancelar y cerrar el modal -->
     <button mat-button (click)="onCancel()">Cancelar</button>
+    <!-- Botón para enviar el formulario, se desactiva si el formulario es inválido -->
     <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="formProject.invalid">
       Guardar cambios
     </button>
